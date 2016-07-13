@@ -1,0 +1,23 @@
+{
+  "name": "pie-xapi",
+  "authors": [
+    "Ben Burton <benjamin.joseph.burton@gmail.com>"
+  ],
+  "description": "An xAPI wrapper for PIE",
+  "main": "dist/pie-xapi.js",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "xAPIWrapper": "git@github.com:adlnet/xAPIWrapper.git#v1.10.0",
+    "lodash": "~4.11.2"
+  }
+}
