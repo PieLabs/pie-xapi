@@ -1,94 +1,44 @@
-(function() {
+(function () {
 
-  // TODO: Obtain this from the container somehow?
-  var actor = {
-    name: "Ben Burton",
-    mbox: 'mailto:ben@corespring.org'
-  };
+  function PieXapi(doc) {
+    var actor = null;
 
-  function init() {
-    ADL.XAPIWrapper.changeConfig({
-      // Get this auth from the container somehow?
-      "endpoint" : "https://cloud.scorm.com/tc/7RCTBEES1P/sandbox/",
-      "auth" : "Basic " + toBase64('Uf1IhNsqBAaLLDNhea4:MIQzxembvsbIw5SJv1g'),
-    }); 
-  }
+    function activity(id, title) {
+      return {
+        id: 'http://corespring.org/' + id,
+        definition: {
+          type: 'http://adlnet.gov/expapi/activities/interaction',
+          name: {
+            'en-US': title
+          }
+        }
+      };
+    };
 
-  function activity(id, title) {
-    var result = {
-      id: 'http://corespring.org/' + id,
-      definition: {
-        type: 'http://adlnet.gov/expapi/activities/interaction'
+    function statement(verb) {
+      return new ADL.XAPIStatement(actor, verb, activity('578644e5c3f99897cad5c44b', 'My CoreSpring Item'));
+    }
+
+    this.setActor = function(name, email){
+      actor = {
+        name: name, 
+        mbox: 'mailto:' + email
       }
     };
-    if (title) {
-      result.definition.name = {
-        'en-US' : title
-      };
-    }
-    return result;
-  };
 
-  function statement(opts) {
-    return new ADL.XAPIStatement(actor, opts.verb, activity(opts.id, opts.title));
+    this.setConfig = function(endpoint, authKey){
+      ADL.XAPIWrapper.changeConfig({
+        endpoint: endpoint, 
+        auth: "Basic " + toBase64(authKey)
+      });
+    };
+
+    doc.addEventListener('pie', function(event){
+      console.log('pie event: ', event.detail);
+    });
   }
 
-  var EventRecorder = {
-    start: function(session) {
-      var response = ADL.XAPIWrapper.sendStatement(statement({
-        id: session.id,
-        verb: ADL.verbs.launched
-      }));
-      return response;
-    },
-    pass: function(session) {
-      var response = ADL.XAPIWrapper.sendStatement(statement({
-        id: session.id,
-        verb: ADL.verbs.passed
-      }));
-      console.log('pass response: ', response);
-      return response;
-    },
-    fail: function(session) {
-      var response = ADL.XAPIWrapper.sendStatement(statement({
-        id: session.id,
-        verb: ADL.verbs.failed
-      }))
-      console.log('fail response: ', response);
-      return response;
-    }
-  };
+  window.pie = window.pie || {};
+  window.pie.xapi = new PieXapi(document);
 
-  document.addEventListener('pie-container.sessionStarted', function(event) {
-    console.log('pie-container.sessionStarted', event.detail);
-    var session = event.detail;
-    EventRecorder.start(session);
-  });
-
-  document.addEventListener('pie-container.sessionEvaluated', function(event) {
-    console.log('pie-container.sessionEvaluated', event.detail);
-    var session = event.detail;
-
-    function process(session) {
-      return {
-        failed: function() {
-          return session.outcome && session.outcome.correctness === 'incorrect';
-        },
-        passed: function() {
-          return session.outcome && session.outcome.correctness === 'correct';
-        }
-      }
-    }
-
-    var resultState = process(event.detail);
-
-    if (resultState.failed()) {
-      EventRecorder.fail(session);
-    } else if (resultState.passed()) {
-      EventRecorder.pass(session);
-    }
-  });
-
-  init();
-  
-}());
+} ());
