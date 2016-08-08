@@ -34,7 +34,7 @@
     };
     var mappings = {};
 
-    this.addMappings = function(key, m){
+    this.addMapping = function(key, m){
       mappings = mappings || {};
       if(mappings[key]){
         throw new Error('Mappings for key: ' + key + ' already exists');
