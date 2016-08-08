@@ -10,7 +10,7 @@ module.exports = function(grunt) {
       },
       dist: {
         // the files to concatenate
-        src: ['lib/*.js'],
+        src: ['lib/**/*.js'],
         // the location of the resulting JS file
         dest: 'dist/pie-xapi.js'
       }
