@@ -75,8 +75,9 @@
     });
   }
 
+  window.pieXapi = new PieXapi(document);
   window.pie = window.pie || {};
-  window.pie.xapi = new PieXapi(document);
+  window.pie.xapi = window.pieXapi; 
 
 } ());;(function (root) {
 
