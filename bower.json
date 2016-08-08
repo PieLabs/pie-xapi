@@ -20,10 +20,9 @@
     "xAPIWrapper": "git@github.com:adlnet/xAPIWrapper.git#v1.10.0",
     "lodash": "~4.11.2"
   },
-  "overrides" : {
-
-    "xAPIWrapper" : {
-      "main" : "dist/xapiwrapper.min.js"
+  "overrides": {
+    "xAPIWrapper": {
+      "main": ["dist/xapiwrapper.min.js"]
     }
   }
 }
