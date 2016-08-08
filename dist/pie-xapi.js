@@ -19,19 +19,14 @@
       return new ADL.XAPIStatement(actor, verb, activity('578644e5c3f99897cad5c44b', 'My CoreSpring Item'));
     }
 
-    this.setActor = function(name, email){
-      actor = {
-        name: name, 
-        mbox: 'mailto:' + email
-      }
+    this.setActor = function(a){
+      actor = a;
     };
 
-    this.setConfig = function(endpoint, authKey){
-      ADL.XAPIWrapper.changeConfig({
-        endpoint: endpoint, 
-        auth: "Basic " + toBase64(authKey)
-      });
+    this.setConfig = function(config){
+      ADL.XAPIWrapper.changeConfig(config);
     };
+
     var mappings = {};
 
     this.addMapping = function(key, m){
