@@ -92,7 +92,7 @@
     'rendered': action,
   };
 
-  pie.xapi.addMapping('container', mapping);
+  pieXapi.addMapping('container', mapping);
 })(this);;(function (root) {
 
   function action(actor, object, detail) {
@@ -111,7 +111,7 @@
         ]
       }
     }
-    
+
     return out;
   }
   
@@ -120,5 +120,5 @@
     'choice-deselected': action,
   };
 
-  pie.xapi.addMapping('corespring-pie-multiple-choice', mapping);
+  pieXapi.addMapping('corespring-pie-multiple-choice', mapping);
 })(this);
